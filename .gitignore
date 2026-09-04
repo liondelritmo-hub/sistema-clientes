@@ -1,0 +1,8 @@
+.env
+db.sqlite3
+staticfiles/
+__pycache__/
+venv/
+datos_sqlite.json
+datos_migracion.json
+*.pyc
