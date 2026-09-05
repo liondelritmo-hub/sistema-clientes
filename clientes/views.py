@@ -984,10 +984,9 @@ from rest_framework.response import Response
 
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
-@api_view(['GET'])
-@permission_classes([IsAdminUser])
 def prueba_email(request):
     from django.conf import settings
+
     return Response({
         'EMAIL_HOST_existe': bool(settings.MAILERS['default']['OPTIONS'].get('host')),
         'EMAIL_PORT_existe': bool(settings.MAILERS['default']['OPTIONS'].get('port')),
