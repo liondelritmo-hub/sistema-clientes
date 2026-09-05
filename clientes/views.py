@@ -985,11 +985,20 @@ from rest_framework.response import Response
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
 def prueba_email(request):
-    from django.conf import settings
+    try:
+        resultado = send_mail(
+            'Prueba SMTP desde Render',
+            'Este correo fue enviado desde Django desplegado en Render mediante Gmail SMTP.',
+            None,
+            ['cuentacreada639@gmail.com'],
+        )
 
-    return Response({
-        'EMAIL_HOST_existe': bool(settings.MAILERS['default']['OPTIONS'].get('host')),
-        'EMAIL_PORT_existe': bool(settings.MAILERS['default']['OPTIONS'].get('port')),
-        'EMAIL_HOST_USER_existe': bool(settings.MAILERS['default']['OPTIONS'].get('username')),
-        'EMAIL_HOST_PASSWORD_existe': bool(settings.MAILERS['default']['OPTIONS'].get('password')),
-    })
+        return Response({
+            'correo_enviado': resultado == 1
+        })
+
+    except Exception as e:
+        return Response({
+            'error': type(e).__name__,
+            'detalle': str(e),
+        }, status=500)
