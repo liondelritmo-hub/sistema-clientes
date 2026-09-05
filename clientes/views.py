@@ -985,24 +985,20 @@ from rest_framework.response import Response
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
 def prueba_email(request):
-    import socket
-
     try:
-        conexion = socket.create_connection(
-            ('smtp.gmail.com', 587),
-            timeout=10
+        resultado = send_mail(
+            'Prueba SMTP desde Render',
+            'Este correo fue enviado desde Django desplegado en Render mediante Gmail SMTP.',
+            None,
+            ['cuentacreada639@gmail.com'],
         )
-        conexion.close()
 
         return Response({
-            'conexion_smtp': True,
-            'host': 'smtp.gmail.com',
-            'puerto': 587
+            'correo_enviado': resultado == 1
         })
 
     except Exception as e:
         return Response({
-            'conexion_smtp': False,
             'error': type(e).__name__,
             'detalle': str(e),
         }, status=500)
