@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ListaClientes,RegistrarClientes,EditarCliente,EliminarCliente,ClienteAPIView,ClienteDetalleAPIView,ClienteDetalleGenericoAPIView,ClienteGenericoAPIView,ClienteViewSet,ProductoListaAPIView,ProductoDetalleAPIView,ProductoActualizarAPIView,ProductoEliminarAPIView,ProductoListaCrearAPIView
+from .views import ListaClientes,RegistrarClientes,EditarCliente,EliminarCliente,ClienteAPIView,ClienteDetalleAPIView,ClienteDetalleGenericoAPIView,ClienteGenericoAPIView,ClienteViewSet,ProductoListaAPIView,ProductoDetalleAPIView,ProductoActualizarAPIView,ProductoEliminarAPIView,ProductoListaCrearAPIView,prueba_email
 from rest_framework.routers import DefaultRouter
 
 from .views import (
@@ -29,6 +29,7 @@ router.register(
     basename='producto'
 )
 urlpatterns = [
+    path('prueba-email/', prueba_email, name='prueba-email'),
     path('cliente_list/', ListaClientes.as_view(), name='cliente_list'),
     path('crear/', RegistrarClientes.as_view(), name='crear_cliente'),
     path('editar/<int:pk>', EditarCliente.as_view(), name='editar_cliente'),

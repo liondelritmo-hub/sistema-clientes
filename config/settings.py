@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', 'False') == 'True'
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_HSTS_SECONDS = 3600
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -159,11 +159,13 @@ STORAGES = {
 MAILERS = {
     'default': {
         'BACKEND': 'django.core.mail.backends.smtp.EmailBackend',
-        'HOST': os.getenv('EMAIL_HOST'),
-        'PORT': int(os.getenv('EMAIL_PORT', 587)),
-        'USERNAME': os.getenv('EMAIL_HOST_USER'),
-        'PASSWORD': os.getenv('EMAIL_HOST_PASSWORD'),
-        'USE_TLS': True,
+        'OPTIONS': {
+            'host': os.getenv('EMAIL_HOST'),
+            'port': int(os.getenv('EMAIL_PORT', 587)),
+            'username': os.getenv('EMAIL_HOST_USER'),
+            'password': os.getenv('EMAIL_HOST_PASSWORD'),
+            'use_tls': True,
+        },
     },
 }
 from datetime import timedelta

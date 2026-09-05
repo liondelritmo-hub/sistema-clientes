@@ -974,3 +974,24 @@ class ProductoListaCrearAPIView(
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+
+
+from django.core.mail import send_mail
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAdminUser
+from rest_framework.response import Response
+
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def prueba_email(request):
+    resultado = send_mail(
+        'Prueba SMTP desde Render',
+        'Este correo fue enviado desde Django desplegado en Render mediante Gmail SMTP.',
+        None,
+        ['cuentacreada639@gmail.com'],
+    )
+
+    return Response({
+        'correo_enviado': resultado == 1
+    })
