@@ -286,14 +286,21 @@ class PedidoSerializer(serializers.ModelSerializer):
         )
 class ProductoCrearSerializer(serializers.ModelSerializer):
 
-        class Meta:
-            model = Producto
-            fields = [
-                'nombre',
-                'precio',
-                'stock',
-                'estado'
-            ]
+    class Meta:
+        model = Producto
+        fields = [
+            'nombre',
+            'precio',
+            'stock',
+            'estado'
+        ]
+
+    def validate_precio(self, value):
+        if value < 0:
+            raise serializers.ValidationError(
+                'El precio no puede ser negativo.'
+            )
+        return value
 class ProductoListaSerializer(serializers.ModelSerializer):
 
     class Meta:
