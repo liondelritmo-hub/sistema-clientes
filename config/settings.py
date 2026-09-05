@@ -36,6 +36,8 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
+if os.getenv('RENDER_EXTERNAL_HOSTNAME'):
+    ALLOWED_HOSTS.append(os.getenv('RENDER_EXTERNAL_HOSTNAME'))
 # Application definition
 
 INSTALLED_APPS = [
