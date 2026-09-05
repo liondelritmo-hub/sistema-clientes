@@ -985,13 +985,20 @@ from rest_framework.response import Response
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
 def prueba_email(request):
-    resultado = send_mail(
-        'Prueba SMTP desde Render',
-        'Este correo fue enviado desde Django desplegado en Render mediante Gmail SMTP.',
-        None,
-        ['cuentacreada639@gmail.com'],
-    )
+    try:
+        resultado = send_mail(
+            'Prueba SMTP desde Render',
+            'Este correo fue enviado desde Django desplegado en Render mediante Gmail SMTP.',
+            None,
+            ['cuentacreada639@gmail.com'],
+        )
 
-    return Response({
-        'correo_enviado': resultado == 1
-    })
+        return Response({
+            'correo_enviado': resultado == 1
+        })
+
+    except Exception as e:
+        return Response({
+            'error': type(e).__name__,
+            'detalle': str(e),
+        }, status=500)
